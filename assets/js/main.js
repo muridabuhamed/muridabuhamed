@@ -35,7 +35,8 @@ navLink.forEach(n => n.addEventListener('click', linkAction))
 let swiperProjects = new Swiper(".projects__container", {
     loop: true,
     spaceBetween: 24,
-
+    slidesPerView: 1,
+    centeredSlides: true,
 
     navigation: {
       nextEl: ".swiper-button-next",
@@ -46,8 +47,8 @@ let swiperProjects = new Swiper(".projects__container", {
     },
     breakpoints: {
         1200: {
-          slidesPerView: 2,
-          spaceBetween: -56,
+          slidesPerView: 1,
+          spaceBetween: 24,
         },
         
       },

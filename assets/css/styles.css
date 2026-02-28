@@ -417,6 +417,7 @@ body.dark-theme {
 /*=============== SKILLS ===============*/
 .skills__container{
   row-gap: 3.5rem;
+  align-items: start;
 
 }
 .skills__title{
@@ -440,13 +441,14 @@ body.dark-theme {
 }
 
 .skills__info{
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem 1.75rem;
 }
 
 .skills__data{
   justify-content: center;
   text-align: center;
+  min-height: 170px;
 }
 
 .skills__blob{
@@ -465,9 +467,31 @@ body.dark-theme {
 
 }
 
+.skills__blob i,
+.skills__ts-icon{
+  font-size: 2rem;
+  color: var(--title-color);
+}
+
+.skills__ts-icon{
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: .6rem;
+  background-color: hsl(207, 90%, 55%);
+  color: hsl(0, 0%, 100%);
+  font-size: .95rem;
+  font-weight: var(--font-semi-bold);
+  font-family: var(--body-font);
+  letter-spacing: .2px;
+}
+
 .skills__name{
   font-size: var(--small-font-size);
   margin-bottom: .25rem;
+  line-height: 1.3;
+  min-height: 2.6em;
 }
 
 .skills__subtitle{
@@ -475,10 +499,18 @@ body.dark-theme {
   color: var(--text-color-light);
 }
 
+.skills__note{
+  display: block;
+  font-size: var(--tiny-font-size);
+  color: var(--text-color-light);
+  margin-top: .2rem;
+}
 
 /* Animation skills */
 
-.skills__blob:hover img{
+.skills__blob:hover img,
+.skills__blob:hover i,
+.skills__blob:hover .skills__ts-icon{
   animation: bounce-skills .6s;
 }
 
@@ -509,8 +541,15 @@ body.dark-theme {
 }
 
 .qualification__container{
+  grid-template-columns: 1fr;
   row-gap: 3.5rem;
 
+}
+
+.qualification__content{
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
 }
 
 .qualification__title{
@@ -529,7 +568,22 @@ font-weight: initial;
 
 .qualification__info{
   display: grid;
+  grid-template-columns: 1fr;
   row-gap: 2rem;
+  column-gap: 1.25rem;
+}
+
+.qualification__info > div{
+  background-color: var(--container-color);
+  border: 1px solid hsl(207, 4%, 28%, .2);
+  border-radius: .75rem;
+  padding: 1rem;
+  transition: background .4s, border-color .3s, transform .3s;
+}
+
+.qualification__info > div:hover{
+  transform: translateY(-2px);
+  border-color: var(--text-color-light);
 }
 
 .qualification__name{
@@ -691,7 +745,7 @@ font-weight: initial;
 }
 
 .projects__img{
-  width: 250px;
+  width: 450px;
   border-radius: .75rem;
   margin-bottom: 1.25rem;
 }
@@ -1104,7 +1158,7 @@ font-weight: initial;
  }
 
  .projects__img{
-  width: 200px;
+  width: 380px;
   justify-self: center;
  }
 }
@@ -1157,13 +1211,27 @@ font-weight: initial;
     padding-right: 0;
   }
   .skills__container,
-  .qualification__container,
   .services__container,
   .contact__container{
     grid-template-columns: repeat(2, max-content);
   }
 
-  .skills__container,
+  .skills__container{
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    column-gap: 2.5rem;
+  }
+
+  .qualification__container{
+    grid-template-columns: 1fr;
+    justify-content: initial;
+    column-gap: 0;
+  }
+
+  .qualification__info{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 1.25rem;
+  }
+
   .services__container{
     column-gap: 5rem;
   }
@@ -1172,11 +1240,6 @@ font-weight: initial;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 3rem;
     row-gap: 2.5rem;
-  }
-
-  .qualification__container{
-    justify-content: center;
-    column-gap: 10rem;
   }
 
   .projects__container{
@@ -1327,8 +1390,8 @@ font-weight: initial;
     }
 
     .skills__container{
-      column-gap: 10rem;
-
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+      column-gap: 3rem;
     }
     .skills__title{
       margin-bottom: 3rem;
@@ -1343,7 +1406,7 @@ font-weight: initial;
       gap:3rem;
     }
     .qualification__container{
-      column-gap: 14rem;
+      column-gap: 0;
     }
     .qualification__title{
       margin-bottom: 3rem;
@@ -1410,7 +1473,7 @@ font-weight: initial;
       margin-bottom: 6.5rem;
     }
     .projects__img{
-      width: 320px;
+      width: 520px;
       margin-bottom: 2rem;
     }
     .testimonial__container{
