@@ -612,6 +612,73 @@ font-weight: initial;
 .services__card:hover .services__border{
   opacity: 1;
 }
+
+/*=============== CERTIFICATIONS ===============*/
+.certifications__container{
+  row-gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+.certifications__card{
+  display: flex;
+  gap: 1.5rem;
+  background-color: var(--container-color);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: 0 8px 24px hsla(207, 24%, 35%, .1);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.certifications__card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px hsla(207, 24%, 35%, .18);
+}
+
+.certifications__icon{
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  background: var(--gradient-color);
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+}
+
+.certifications__icon i{
+  font-size: 1.75rem;
+  color: var(--body-color);
+}
+
+.certifications__content{
+  flex: 1;
+}
+
+.certifications__title{
+  font-size: var(--h3-font-size);
+  font-weight: var(--font-semi-bold);
+  margin-bottom: .5rem;
+}
+
+.certifications__issuer{
+  display: block;
+  font-size: var(--small-font-size);
+  color: var(--first-color);
+  font-weight: var(--font-semi-bold);
+  margin-bottom: .25rem;
+}
+
+.certifications__date{
+  display: block;
+  font-size: var(--smaller-font-size);
+  color: var(--text-color-light);
+  margin-bottom: .75rem;
+}
+
+.certifications__description{
+  font-size: var(--small-font-size);
+  line-height: 1.6;
+  color: var(--text-color);
+}
 /*=============== PROJECTS ===============*/
 .projects__container{
   overflow: initial;
@@ -1101,6 +1168,12 @@ font-weight: initial;
     column-gap: 5rem;
   }
 
+  .certifications__container{
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 3rem;
+    row-gap: 2.5rem;
+  }
+
   .qualification__container{
     justify-content: center;
     column-gap: 10rem;
@@ -1303,6 +1376,21 @@ font-weight: initial;
       width: 265px;
       height: 365px;
       border-radius: 8.25rem;
+    }
+    .certifications__container{
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 4rem;
+      row-gap: 3rem;
+    }
+    .certifications__card{
+      padding: 2.5rem;
+    }
+    .certifications__icon{
+      width: 70px;
+      height: 70px;
+    }
+    .certifications__icon i{
+      font-size: 2rem;
     }
     .projects__container{
       width: 900px;
