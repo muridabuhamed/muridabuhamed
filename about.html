@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <!-- shell:head:start -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#131416">
+    <link rel="icon" href="assets/img/favicon.png" type="image/png">
+    <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="assets/css/styles.css?v=2">
+    <!-- Dark by default; apply a saved light choice before first paint to avoid a flash -->
+    <script>
+        (function () {
+            var root = document.documentElement, theme;
+            try { theme = localStorage.getItem('theme'); } catch (e) {}
+            root.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                root.classList.add('has-motion');
+                // safety net: never leave content hidden if the animation scripts fail to run
+                setTimeout(function () { root.classList.remove('has-motion'); }, 4000);
+            }
+        })();
+    </script>
+    <!-- shell:head:end -->
+    <title>About — Murid AbuHamed</title>
+    <meta name="description" content="Murid AbuHamed is a Software Engineer who builds end-to-end applications and integrates language models into them, connecting AI to application data, APIs and workflows.">
+    <meta property="og:title" content="About — Murid AbuHamed">
+    <meta property="og:description" content="A Software Engineer building end-to-end applications and integrating AI into them: focus, skills grouped by capability, and how I approach engineering problems.">
+    <meta property="og:type" content="profile">
+</head>
+<body data-page="about">
+    <!-- shell:header:start -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+        <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+        <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+        <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></symbol>
+        <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+        <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+        <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></symbol>
+    </svg>
+
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="header" id="header">
+        <div class="scroll-progress" aria-hidden="true"></div>
+        <nav class="nav container" aria-label="Main">
+            <a href="index.html" class="nav__logo" aria-label="Murid AbuHamed, home">murid<span>.</span></a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li><a href="index.html" class="nav__link">Home</a></li>
+                    <li><a href="projects.html" class="nav__link">Projects</a></li>
+                    <li><a href="about.html" class="nav__link" aria-current="page">About</a></li>
+                    <li><a href="experience.html" class="nav__link">Experience</a></li>
+                    <li><a href="blog.html" class="nav__link">Journal</a></li>
+                    <li><a href="contact.html" class="nav__link">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="nav__actions">
+                <button class="icon-button theme-toggle" type="button" id="theme-toggle" aria-label="Switch to light theme">
+                    <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+                    <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+                </button>
+                <button class="icon-button nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                    <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+    <!-- shell:header:end -->
+
+    <main id="main">
+        <header class="page-head has-pattern">
+            <div class="container about-head">
+                <div class="about-head__text">
+                    <p class="eyebrow">About</p>
+                    <h1 class="page-head__title">Applications built end to end, with AI where it helps</h1>
+                    <p class="page-head__lead">I'm a Software Engineer. I build modern applications from the interface to the backend, and I integrate language models into them, connecting AI to application data, APIs and workflows.</p>
+                </div>
+                <figure class="about__portrait about__portrait--photo">
+                    <img src="assets/img/opt/portrait.webp" width="600" height="600" decoding="async" alt="Portrait of Murid AbuHamed">
+                </figure>
+            </div>
+        </header>
+
+        <section class="section section--flush" aria-labelledby="focus-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="eyebrow">Focus</p>
+                    <h2 class="section__title" id="focus-title">What I concentrate on</h2>
+                </header>
+
+                <ol class="focus">
+                    <li class="focus__item reveal">
+                        <h3 class="focus__title">Modern, end-to-end applications</h3>
+                        <p class="focus__text">Interface, API and data layer designed together, so a feature works from the first click to the database.</p>
+                    </li>
+                    <li class="focus__item reveal">
+                        <h3 class="focus__title">AI inside practical products</h3>
+                        <p class="focus__text">Language-model features added where they solve a real problem, with a clear view of what they cannot do.</p>
+                    </li>
+                    <li class="focus__item reveal">
+                        <h3 class="focus__title">Models connected to real data</h3>
+                        <p class="focus__text">Controlled access to application data, APIs and workflows, instead of loose prompts detached from the system.</p>
+                    </li>
+                    <li class="focus__item reveal">
+                        <h3 class="focus__title">Maintainable, dependable backends</h3>
+                        <p class="focus__text">Layered code, explicit error handling, and tests around the parts that matter most.</p>
+                    </li>
+                    <li class="focus__item reveal">
+                        <h3 class="focus__title">Emerging AI, applied with care</h3>
+                        <p class="focus__text">I keep exploring new AI technology and adopt it where it provides genuine value.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!--
+            SKILLS: how to add or change a skill
+            1. Copy one <li class="skill"> into the group it belongs to (or move it between groups).
+            2. Set data-status to one of:
+                 used       - Used in projects: verified in a project on this site
+                 coursework - Coursework: used in an academic or training context
+               The label is shown on the row automatically.
+            3. Write one specific sentence on how I use it, and link the project that shows it in .skill__proof.
+            Only list a technology that a repository, certification or course supports.
+            Tools without that evidence are kept in the commented block at the end of this section.
+        -->
+        <section class="section" id="skills" aria-labelledby="skills-title">
+            <div class="container skills">
+                <header class="section__head">
+                    <p class="eyebrow">Skills</p>
+                    <h2 class="section__title" id="skills-title">Capabilities, with the work that shows them</h2>
+                    <p class="section__lead">Grouped by what I can do. Each skill says how I use it and links to the project behind it. Languages across these projects: Python, Java, C#, PHP, TypeScript and JavaScript.</p>
+                    <ul class="skills__legend" aria-label="What the markers mean">
+                        <li data-status="used">Used in projects</li>
+                        <li data-status="coursework">Coursework</li>
+                    </ul>
+                </header>
+
+                <section class="skill-group reveal" aria-labelledby="sg-ai">
+                    <header class="skill-group__head">
+                        <h3 class="skill-group__title" id="sg-ai">AI and LLM engineering</h3>
+                        <p class="skill-group__text">Connecting models to application data and workflows, and handling what they return.</p>
+                    </header>
+                    <ul class="skill-list">
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Gemini API</span>
+                            <p class="skill__note">Document analysis, grounded chat and flashcard generation; function calling over database tools; a coaching feature in a mobile app.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html">CleverStudy</a><a href="project-umc.html">UMC</a><a href="projects.html#engineering">FocusBubble</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Tool and function calling</span>
+                            <p class="skill__note">The model asks for records through four typed, read-only tools, and the application runs each query in a loop.</p>
+                            <p class="skill__proof"><a href="project-umc.html#s-decisions">UMC</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Multi-step LLM workflows</span>
+                            <p class="skill__note">A document pipeline (upload, extract, analyse, store, study) and a multi-turn tool loop, written directly against the SDK without an orchestration framework.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-architecture">CleverStudy</a><a href="project-umc.html#s-architecture">UMC</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Structured output and validation</span>
+                            <p class="skill__note">Prompts that request strict JSON, with code-fence stripping, shape checks and empty-result fallbacks.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-decisions">CleverStudy</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Prompt design</span>
+                            <p class="skill__note">Task prompts for analysis and flashcards, a document-grounded chat prompt, and a tool-use system prompt. Output is validated at runtime; there is no offline evaluation suite yet.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-decisions">CleverStudy</a><a href="project-umc.html#s-architecture">UMC</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Model error handling</span>
+                            <p class="skill__note">Fallback to a second model on quota errors, and separate exceptions for quota, key and other failures.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-decisions">CleverStudy</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">MCP server</span>
+                            <p class="skill__note">The same data tools exposed to outside MCP clients over stdio and HTTP with the Laravel MCP package.</p>
+                            <p class="skill__proof"><a href="project-umc.html#s-architecture">UMC</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Local models with Ollama</span>
+                            <p class="skill__note">A locally hosted model called from a Java web application, with its reasoning block stripped from replies.</p>
+                            <p class="skill__proof"><a href="project-ollama-chat.html">Local LLM chat app</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Neural-network classifiers</span>
+                            <p class="skill__note">scikit-learn MLP models trained in two university projects and evaluated with accuracy, precision, recall and F1.</p>
+                            <p class="skill__proof"><a href="projects.html#experiments">University exercises</a></p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="skill-group reveal" aria-labelledby="sg-aitools">
+                    <header class="skill-group__head">
+                        <h3 class="skill-group__title" id="sg-aitools">AI development tools</h3>
+                        <p class="skill-group__text">Tools I build software with.</p>
+                    </header>
+                    <ul class="skill-list">
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Claude Code</span>
+                            <p class="skill__note">Configured for the UMC repository through Laravel Boost, with project skills for Laravel, Pest and Tailwind CSS.</p>
+                            <p class="skill__proof"><a href="project-umc.html#s-tech">UMC</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Laravel Boost</span>
+                            <p class="skill__note">Laravel's tooling for AI coding assistants, installed as a dev dependency with an update script.</p>
+                            <p class="skill__proof"><a href="project-umc.html#s-tech">UMC</a></p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="skill-group reveal" aria-labelledby="sg-backend">
+                    <header class="skill-group__head">
+                        <h3 class="skill-group__title" id="sg-backend">Backend and software architecture</h3>
+                        <p class="skill-group__text">Structure, data and behaviour under failure.</p>
+                    </header>
+                    <ul class="skill-list">
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">API development</span>
+                            <p class="skill__note">REST APIs in FastAPI and ASP.NET Core, web back ends in Spring Boot and Laravel, and real-time updates over SignalR.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html">CleverStudy</a><a href="projects.html#engineering">Fan–artist API</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Layered architecture</span>
+                            <p class="skill__note">Routes, services, repositories and domain models kept separate so parts can change independently.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-architecture">CleverStudy</a><a href="projects.html#engineering">Fan–artist API</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Authentication and access control</span>
+                            <p class="skill__note">JWT with bcrypt hashing; roles, policies and query scoping.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html">CleverStudy</a><a href="project-umc.html#s-architecture">UMC</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Database integration</span>
+                            <p class="skill__note">SQLite behind a repository layer, Eloquent models and migrations, and Entity Framework Core.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-architecture">CleverStudy</a><a href="project-umc.html#s-architecture">UMC</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Configuration and dependency injection</span>
+                            <p class="skill__note">Typed settings loaded from the environment, and FastAPI dependencies that wire services together.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-architecture">CleverStudy</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Error handling</span>
+                            <p class="skill__note">A custom exception hierarchy and explicit processing states (pending, processing, completed, error).</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-architecture">CleverStudy</a></p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="skill-group reveal" aria-labelledby="sg-frontend">
+                    <header class="skill-group__head">
+                        <h3 class="skill-group__title" id="sg-frontend">Frontend and full-stack development</h3>
+                        <p class="skill-group__text">Interfaces connected to real backends.</p>
+                    </header>
+                    <ul class="skill-list">
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">React and TypeScript</span>
+                            <p class="skill__note">Feature-organised frontends with typed API clients, built with Vite.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-architecture">CleverStudy</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">JavaScript, HTML and CSS</span>
+                            <p class="skill__note">Hand-written, responsive and accessible interfaces, including this website and its canvas animation.</p>
+                            <p class="skill__proof"><a href="projects.html#engineering">This website</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Tailwind CSS</span>
+                            <p class="skill__note">Styling for a React frontend and for a Filament admin panel.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-tech">CleverStudy</a><a href="project-umc.html#s-tech">UMC</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">End-to-end development</span>
+                            <p class="skill__note">One feature taken from the interface through the API to the database.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html">CleverStudy</a><a href="project-umc.html">UMC</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Mobile with Capacitor</span>
+                            <p class="skill__note">A React app packaged for Android, with a custom native plugin.</p>
+                            <p class="skill__proof"><a href="projects.html#engineering">FocusBubble</a></p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="skill-group reveal" aria-labelledby="sg-ops">
+                    <header class="skill-group__head">
+                        <h3 class="skill-group__title" id="sg-ops">Testing, monitoring and infrastructure</h3>
+                        <p class="skill-group__text">Checking that software works, and seeing what it does.</p>
+                    </header>
+                    <ul class="skill-list">
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Automated testing</span>
+                            <p class="skill__note">pytest unit tests for an authentication service and a user repository; NUnit and Moq tests for a logic layer.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-status">CleverStudy</a><a href="projects.html#engineering">Fan–artist API</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Logging and health checks</span>
+                            <p class="skill__note">Structured logging to console and file across the backend, and a health endpoint. No error-monitoring service is set up yet.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-architecture">CleverStudy</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Deployment configuration</span>
+                            <p class="skill__note">Render and Netlify configuration for a FastAPI backend and a Vite frontend. A live deployment is not claimed.</p>
+                            <p class="skill__proof"><a href="project-cleverstudy.html#s-architecture">CleverStudy</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Git</span>
+                            <p class="skill__note">Version control across every project on this site.</p>
+                            <p class="skill__proof"><a href="projects.html">All projects</a></p>
+                        </li>
+                        <li class="skill" data-status="used">
+                            <span class="skill__name">Docker</span>
+                            <p class="skill__note">Containers for running applications, also covered in a role-based-access course with Spring Boot and MongoDB.</p>
+                            <p class="skill__proof"><a href="experience.html#certifications">Certification</a></p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!--
+                    NOT SHOWN: tools that need your confirmation before they can be listed.
+                    None of these appear in any of my public repositories, so they are left out of the page.
+                    If you have really used one (at work, in a private project, or in a course), copy its <li> into
+                    the right group above, replace the text in square brackets, set data-status
+                    (used or coursework) and link a project or certification that supports it.
+
+                    AI and LLM engineering
+                    <li class="skill" data-status="used"><span class="skill__name">LangChain</span><p class="skill__note">[How I use it]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+                    <li class="skill" data-status="used"><span class="skill__name">LangGraph</span><p class="skill__note">[How I use it]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+                    <li class="skill" data-status="used"><span class="skill__name">Retrieval-augmented generation (RAG)</span><p class="skill__note">[What I built]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+                    <li class="skill" data-status="used"><span class="skill__name">Embeddings and vector databases</span><p class="skill__note">[Which one, and for what]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+                    <li class="skill" data-status="used"><span class="skill__name">AI agents and workflow orchestration</span><p class="skill__note">[What I built]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+                    <li class="skill" data-status="used"><span class="skill__name">Langfuse or LangSmith</span><p class="skill__note">[Tracing or evaluation I set up]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+
+                    AI development tools
+                    <li class="skill" data-status="used"><span class="skill__name">GitHub Copilot</span><p class="skill__note">[How I use it]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+
+                    Testing, monitoring and infrastructure
+                    <li class="skill" data-status="used"><span class="skill__name">Sentry</span><p class="skill__note">[What I monitor with it]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+                    <li class="skill" data-status="used"><span class="skill__name">CI/CD</span><p class="skill__note">[Which pipeline, and what it runs]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+                    <li class="skill" data-status="used"><span class="skill__name">Docker (in my own projects)</span><p class="skill__note">[What I containerised]</p><p class="skill__proof"><a href="[project page]">[Project]</a></p></li>
+                -->
+            </div>
+        </section>
+
+        <section class="section" id="approach" aria-labelledby="approach-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="eyebrow">Approach</p>
+                    <h2 class="section__title" id="approach-title">How I approach engineering problems</h2>
+                    <p class="section__lead">Each of these is something the code in my projects does, with a link to where.</p>
+                </header>
+
+                <ol class="patterns">
+                    <li class="pattern reveal">
+                        <h3 class="pattern__title">Keep boundaries clear</h3>
+                        <p>Routes, services and repositories stay separate, so a model, a database or an API can change without rewriting the rest.</p>
+                        <a class="text-link" href="project-cleverstudy.html#s-architecture">CleverStudy architecture <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                    </li>
+                    <li class="pattern reveal">
+                        <h3 class="pattern__title">Treat model output as untrusted</h3>
+                        <p>A model's answer is input like any other: parse it, check its shape, escape it, and decide what happens when it is wrong.</p>
+                        <a class="text-link" href="project-cleverstudy.html#s-decisions">Output validation <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                    </li>
+                    <li class="pattern reveal">
+                        <h3 class="pattern__title">Expect upstream failures</h3>
+                        <p>Quota limits and API errors are normal conditions. They get their own exceptions, a fallback and visible states.</p>
+                        <a class="text-link" href="project-cleverstudy.html#s-decisions">Fallback and errors <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                    </li>
+                    <li class="pattern reveal">
+                        <h3 class="pattern__title">Give models narrow access</h3>
+                        <p>Where a model needs data, I prefer small read-only tools over copying a database into a prompt.</p>
+                        <a class="text-link" href="project-umc.html#s-decisions">Tool design <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                    </li>
+                    <li class="pattern reveal">
+                        <h3 class="pattern__title">Test what protects the most</h3>
+                        <p>Authentication and data access come first. The rest is still to do, and the case study says so.</p>
+                        <a class="text-link" href="project-cleverstudy.html#s-status">Test coverage and limits <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="section" id="education" aria-labelledby="education-title">
+            <div class="container education">
+                <header class="section__head">
+                    <p class="eyebrow">Education</p>
+                    <h2 class="section__title" id="education-title">Computer science background</h2>
+                </header>
+                <div class="education__body reveal">
+                    <p class="education__degree">BSc in Computer Science and Engineering</p>
+                    <p class="education__meta">Óbuda University · 2021 – 2025</p>
+                    <p class="education__more">Earlier education, certifications and employment history are on the <a href="experience.html">Experience page</a>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section about-next" aria-label="Next steps">
+            <div class="container about-next__inner">
+                <a class="button button--primary" href="projects.html">See the projects <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                <a class="button button--ghost" href="contact.html">Get in touch <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+            </div>
+        </section>
+    </main>
+
+    <!-- shell:footer:start -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__row">
+                <a href="index.html" class="nav__logo" aria-label="Murid AbuHamed, home">murid<span>.</span></a>
+                <nav class="footer__nav" aria-label="Footer">
+                    <a href="index.html">Home</a>
+                    <a href="projects.html">Projects</a>
+                    <a href="about.html">About</a>
+                    <a href="experience.html">Experience</a>
+                    <a href="blog.html">Journal</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="https://github.com/muridabuhamed" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://www.linkedin.com/in/murid-abuhamed-48bbb2239/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </nav>
+            </div>
+            <p class="footer__copy">&copy; Murid AbuHamed. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button class="icon-button scrollup" type="button" id="scroll-up" aria-label="Back to top">
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+    </button>
+    <!-- shell:footer:end -->
+
+    <!-- shell:scripts:start -->
+    <script src="assets/js/vendor/gsap.min.js"></script>
+    <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+    <script src="assets/js/vendor/ScrollToPlugin.min.js"></script>
+    <script src="assets/js/vendor/lenis.min.js"></script>
+    <script src="assets/js/motion.js"></script>
+    <script src="assets/js/main.js?v=2"></script>
+    <!-- shell:scripts:end -->
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <!-- shell:head:start -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#131416">
+    <link rel="icon" href="assets/img/favicon.png" type="image/png">
+    <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="assets/css/styles.css?v=2">
+    <!-- Dark by default; apply a saved light choice before first paint to avoid a flash -->
+    <script>
+        (function () {
+            var root = document.documentElement, theme;
+            try { theme = localStorage.getItem('theme'); } catch (e) {}
+            root.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                root.classList.add('has-motion');
+                // safety net: never leave content hidden if the animation scripts fail to run
+                setTimeout(function () { root.classList.remove('has-motion'); }, 4000);
+            }
+        })();
+    </script>
+    <!-- shell:head:end -->
+    <title>Projects — Murid AbuHamed</title>
+    <meta name="description" content="Engineering projects by Murid AbuHamed: three case studies on LLM integration with Laravel, FastAPI and Spring Boot, plus a .NET API, a mobile app, web interfaces and smaller experiments.">
+    <meta property="og:title" content="Projects — Murid AbuHamed">
+    <meta property="og:description" content="Three case studies on LLM integration, then additional engineering projects, interfaces and experiments. Every description is limited to what the repository shows.">
+    <meta property="og:type" content="website">
+</head>
+<body data-page="projects">
+    <!-- shell:header:start -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+        <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+        <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+        <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></symbol>
+        <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+        <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+        <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></symbol>
+    </svg>
+
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="header" id="header">
+        <div class="scroll-progress" aria-hidden="true"></div>
+        <nav class="nav container" aria-label="Main">
+            <a href="index.html" class="nav__logo" aria-label="Murid AbuHamed, home">murid<span>.</span></a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li><a href="index.html" class="nav__link">Home</a></li>
+                    <li><a href="projects.html" class="nav__link" aria-current="page">Projects</a></li>
+                    <li><a href="about.html" class="nav__link">About</a></li>
+                    <li><a href="experience.html" class="nav__link">Experience</a></li>
+                    <li><a href="blog.html" class="nav__link">Journal</a></li>
+                    <li><a href="contact.html" class="nav__link">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="nav__actions">
+                <button class="icon-button theme-toggle" type="button" id="theme-toggle" aria-label="Switch to light theme">
+                    <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+                    <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+                </button>
+                <button class="icon-button nav__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                    <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+    <!-- shell:header:end -->
+
+    <main id="main">
+        <header class="page-head has-pattern">
+            <div class="container">
+                <p class="eyebrow">Projects</p>
+                <h1 class="page-head__title">Engineering projects</h1>
+                <p class="page-head__lead">Three case studies first, then smaller projects. Every description is limited to what the repository shows; where a project has no public code or no screenshot, the page says so or uses a plain stack tile.</p>
+            </div>
+        </header>
+
+        <section class="section section--flush scrolly scrolly--wide" aria-labelledby="featured-title">
+            <div class="scrolly__track">
+                <div class="scrolly__stage">
+                    <div class="container scrolly__inner">
+                        <h2 class="work__sub" id="featured-title">Featured case studies</h2>
+
+                        <div class="scrolly__body">
+                            <div class="scrolly__chapters">
+                                <article class="feature">
+                                    <a class="project__media project__media--plain" href="project-umc.html" aria-label="UMC School Management System case study"><span>PHP 8.2 · Laravel 12<br>Filament 5 · Livewire<br>Gemini API · Laravel MCP</span></a>
+                                    <div class="feature__body">
+                                        <p class="project__category"><span class="project__index">01</span> AI integration · PHP · Laravel</p>
+                                        <h3 class="feature__title"><a href="project-umc.html">UMC School Management System</a></h3>
+                                        <p class="feature__text">A Laravel and Filament admin system for students, courses, grades and attendance. Its assistant answers questions through Gemini function calling: four read-only tools run Eloquent queries, so the model asks for the records it needs instead of receiving the database.</p>
+                                        <p class="status status--active"><span class="status__dot" aria-hidden="true"></span>In development · started May 2026</p>
+                                        <ul class="tags" aria-label="Technologies"><li class="tag">Laravel 12</li><li class="tag">Filament 5</li><li class="tag">Gemini API</li><li class="tag">Laravel MCP</li></ul>
+                                        <div class="feature__links">
+                                            <a class="button button--ghost" href="project-umc.html">Read the case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                                            <a class="text-link" href="https://github.com/muridabuhamed/UMC-project" target="_blank" rel="noopener noreferrer">View code <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <article class="feature">
+                                    <a class="project__media" data-badge="AI · Gemini" href="project-cleverstudy.html" aria-label="CleverStudy case study"><img src="assets/img/opt/cleverstudy-chat.webp" width="1400" height="636" loading="lazy" decoding="async" alt="CleverStudy showing a PDF on the left and an AI chat assistant answering questions about it on the right"></a>
+                                    <div class="feature__body">
+                                        <p class="project__category"><span class="project__index">02</span> AI integration · Python · React</p>
+                                        <h3 class="feature__title"><a href="project-cleverstudy.html">CleverStudy</a></h3>
+                                        <p class="feature__text">A study platform: upload a PDF and get topics, a practice quiz, flashcards scheduled with SM-2, and a chat assistant that answers from the document. A layered FastAPI backend isolates the Gemini client, validates its JSON and falls back to a second model on quota errors.</p>
+                                        <p class="status status--active"><span class="status__dot" aria-hidden="true"></span>In development · active since March 2026</p>
+                                        <ul class="tags" aria-label="Technologies"><li class="tag">FastAPI</li><li class="tag">React 19</li><li class="tag">TypeScript</li><li class="tag">Gemini API</li></ul>
+                                        <div class="feature__links">
+                                            <a class="button button--ghost" href="project-cleverstudy.html">Read the case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                                            <a class="text-link" href="https://github.com/muridabuhamed/CleverStudy" target="_blank" rel="noopener noreferrer">View code <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <article class="feature">
+                                    <a class="project__media" data-badge="AI · Ollama" href="project-ollama-chat.html" aria-label="Local LLM chat app case study"><img src="assets/img/opt/ai-chatbot.webp" width="957" height="911" loading="lazy" decoding="async" alt="Dark chat interface answering questions about REST APIs using a local Ollama model"></a>
+                                    <div class="feature__body">
+                                        <p class="project__category"><span class="project__index">03</span> AI integration · Java · Spring Boot</p>
+                                        <h3 class="feature__title"><a href="project-ollama-chat.html">Local LLM chat app</a></h3>
+                                        <p class="feature__text">A server-rendered Spring Boot chat interface that calls a model running locally through Ollama, with no cloud API. The case study traces one request through the layers and lists, honestly, what this first version gets wrong.</p>
+                                        <p class="status"><span class="status__dot" aria-hidden="true"></span>Working prototype · September 2025</p>
+                                        <ul class="tags" aria-label="Technologies"><li class="tag">Java 21</li><li class="tag">Spring Boot 3.5</li><li class="tag">Thymeleaf</li><li class="tag">Ollama</li></ul>
+                                        <div class="feature__links">
+                                            <a class="button button--ghost" href="project-ollama-chat.html">Read the case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                                            <a class="text-link" href="https://github.com/muridabuhamed/AI-App" target="_blank" rel="noopener noreferrer">View code <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <div class="scrolly__progress" aria-hidden="true">
+                                <ol class="scrolly__rail"><li>UMC</li><li>CleverStudy</li><li>Local LLM chat</li></ol>
+                                <div class="scrolly__bar"><span></span></div>
+                                <p class="scrolly__count">01 / 03</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--flush" id="engineering" aria-labelledby="engineering-title">
+            <div class="container">
+                <h2 class="work__sub" id="engineering-title">More engineering projects</h2>
+                <div class="work-grid work-grid--3">
+                    <article class="project reveal">
+                        <div class="project__media project__media--plain" aria-hidden="true"><span>C# · .NET 6<br>ASP.NET Core · EF Core<br>SignalR · NUnit · Moq</span></div>
+                        <p class="project__category"><span class="project__index">04</span> Backend · C# · .NET</p>
+                        <h3 class="project__title">Fan–artist reservation system</h3>
+                        <p class="project__text">A layered .NET 6 solution: an ASP.NET Core REST API with CRUD endpoints and analytics queries (best and worst fans, artist earnings), a generic repository over EF Core, a logic layer covered by NUnit and Moq tests, and SignalR notifications when artists change. A console client and a WPF desktop client consume the API.</p>
+                        <p class="project__note">Data is held in an EF Core in-memory database seeded with sample data. Created in 2023; WPF client added in 2026.</p>
+                        <div class="project__footer">
+                            <ul class="tags" aria-label="Technologies"><li class="tag">C#</li><li class="tag">ASP.NET Core</li><li class="tag">EF Core</li><li class="tag">SignalR</li><li class="tag">WPF</li></ul>
+                            <a class="text-link" href="https://github.com/muridabuhamed/ED9ACS_HFT_2022232" target="_blank" rel="noopener noreferrer">View code <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                        </div>
+                    </article>
+
+                    <article class="project reveal" style="--d:80ms">
+                        <div class="project__media project__media--plain" aria-hidden="true"><span>React · TypeScript<br>Capacitor · Android<br>Supabase · Gemini API</span></div>
+                        <p class="project__category"><span class="project__index">05</span> Mobile app · AI coach</p>
+                        <h3 class="project__title">FocusBubble</h3>
+                        <p class="project__text">A focus-session app for Android built with React and Capacitor. It runs timed sessions, can switch on Do Not Disturb through a custom native plugin, signs users in with Google through Supabase, and includes a coach powered by the Gemini API.</p>
+                        <p class="project__note">Early stage.</p>
+                        <div class="project__footer">
+                            <ul class="tags" aria-label="Technologies"><li class="tag">React</li><li class="tag">TypeScript</li><li class="tag">Capacitor</li><li class="tag">Supabase</li><li class="tag">Gemini API</li></ul>
+                            <a class="text-link" href="https://github.com/muridabuhamed/Focusbubble" target="_blank" rel="noopener noreferrer">View code <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                        </div>
+                    </article>
+
+                    <article class="project reveal" style="--d:160ms">
+                        <div class="project__media"><img src="assets/img/opt/portfolio.webp" width="1000" height="625" loading="lazy" decoding="async" alt="Screenshot of this portfolio website"></div>
+                        <p class="project__category"><span class="project__index">06</span> Portfolio website</p>
+                        <h3 class="project__title">This website</h3>
+                        <p class="project__text">Hand-written HTML, CSS and JavaScript with no framework or build step: a canvas-based neural-network animation, self-hosted fonts, optimized WebP images, and a journal driven by a single data file.</p>
+                        <div class="project__footer">
+                            <ul class="tags" aria-label="Technologies"><li class="tag">HTML</li><li class="tag">CSS</li><li class="tag">JavaScript</li><li class="tag">Canvas</li></ul>
+                            <a class="text-link" href="https://github.com/muridabuhamed/muridabuhamed" target="_blank" rel="noopener noreferrer">View code <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--flush" id="interfaces" aria-labelledby="interfaces-title">
+            <div class="container">
+                <h2 class="work__sub" id="interfaces-title">Interfaces and websites</h2>
+                <div class="work-grid work-grid--4">
+                    <article class="project reveal">
+                        <div class="project__media" data-badge="AI insights"><img src="assets/img/opt/lumina-study.webp" width="1000" height="438" loading="lazy" decoding="async" alt="Lumina AI study dashboard with a study activity chart, upcoming sessions and an AI insights panel"></div>
+                        <p class="project__category"><span class="project__index">07</span> Dashboard UI</p>
+                        <h3 class="project__title">Lumina AI Study Dashboard</h3>
+                        <p class="project__text">A dashboard for a student study app with an activity chart, upcoming sessions and an AI insights panel.</p>
+                    </article>
+
+                    <article class="project reveal" style="--d:60ms">
+                        <div class="project__media"><img src="assets/img/opt/academic-research.webp" width="1000" height="574" loading="lazy" decoding="async" alt="Arabic and English academic research services website homepage"></div>
+                        <p class="project__category"><span class="project__index">08</span> Bilingual website</p>
+                        <h3 class="project__title">Academic Research Services</h3>
+                        <p class="project__text">A bilingual Arabic and English website presenting academic research services.</p>
+                    </article>
+
+                    <article class="project reveal" style="--d:120ms">
+                        <div class="project__media"><img src="assets/img/opt/ostathi.webp" width="617" height="780" loading="lazy" decoding="async" alt="Ostathi Arabic teacher dashboard with course and assignment panels"></div>
+                        <p class="project__category"><span class="project__index">09</span> Dashboard UI · Arabic</p>
+                        <h3 class="project__title">Ostathi Dashboard</h3>
+                        <p class="project__text">A right-to-left Arabic teacher dashboard for an educational platform, with an English language switch.</p>
+                    </article>
+
+                    <article class="project reveal" style="--d:180ms">
+                        <div class="project__media"><img src="assets/img/opt/loft-beans.webp" width="1000" height="773" loading="lazy" decoding="async" alt="Loft Beans Cafe website hero showing two cups of coffee and the tagline Where Every Sip Tells a Story"></div>
+                        <p class="project__category"><span class="project__index">10</span> Website</p>
+                        <h3 class="project__title">Loft Beans Cafe</h3>
+                        <p class="project__text">A website for a coffee shop with home, menu, about and contact sections.</p>
+                    </article>
+                </div>
+                <p class="project__note section__more">These four have no public repository, so they are shown from screenshots only.</p>
+            </div>
+        </section>
+
+        <section class="section section--flush" id="experiments" aria-labelledby="experiments-title">
+            <div class="container">
+                <h2 class="work__sub" id="experiments-title">Other projects and experiments</h2>
+                <ul class="mini">
+                    <li class="mini__item reveal">
+                        <div class="project__media mini__media"><img src="assets/img/opt/lights-game.webp" width="1000" height="667" loading="lazy" decoding="async" style="--pos:center" alt="Console visualization of a park grid with lit safe fields in green and dark unsafe fields in red"></div>
+                        <div class="mini__body">
+                            <p class="project__category"><span class="project__index">11</span> C# · University project</p>
+                            <h3 class="mini__title">Safe path through a lit park</h3>
+                            <p class="mini__text">An object-oriented console application that finds and draws a path between two points, where only the areas lit by light poles are safe.</p>
+                        </div>
+                        <a class="text-link" href="https://github.com/muridabuhamed/Lights-" target="_blank" rel="noopener noreferrer">View code <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                    </li>
+
+                    <li class="mini__item reveal">
+                        <div class="project__media mini__media"><img src="assets/img/opt/snake-game.webp" width="1000" height="667" loading="lazy" decoding="async" style="--pos:center" alt="Snake game with a yellow snake and a red food pellet on a green board"></div>
+                        <div class="mini__body">
+                            <p class="project__category"><span class="project__index">12</span> Python · Tkinter</p>
+                            <h3 class="mini__title">Snake game</h3>
+                            <p class="mini__text">A classic Snake game with random food, collision detection, score tracking and a game-over screen.</p>
+                        </div>
+                        <a class="text-link" href="https://github.com/muridabuhamed/PythonSnakegame" target="_blank" rel="noopener noreferrer">View code <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                    </li>
+
+                    <li class="mini__item reveal">
+                        <div class="project__media mini__media"><img src="assets/img/opt/js-game.webp" width="1000" height="667" loading="lazy" decoding="async" style="--pos:center" alt="Grid of coloured squares on a gold background with a New One button"></div>
+                        <div class="mini__body">
+                            <p class="project__category"><span class="project__index">13</span> JavaScript</p>
+                            <h3 class="mini__title">Sketch grid</h3>
+                            <p class="mini__text">A drawing grid: hovering paints cells, and a button rebuilds the grid at 1 to 100 squares per side.</p>
+                        </div>
+                        <a class="text-link" href="https://github.com/muridabuhamed/Pro2" target="_blank" rel="noopener noreferrer">View code <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                    </li>
+
+                    <li class="mini__item reveal">
+                        <div class="project__media project__media--plain mini__media" aria-hidden="true"><span>Python<br>scikit-learn</span></div>
+                        <div class="mini__body">
+                            <p class="project__category"><span class="project__index">14</span> Python · University exercises</p>
+                            <h3 class="mini__title">Neural-network classifiers</h3>
+                            <p class="mini__text">Two short exercises that train scikit-learn MLP classifiers on OpenML datasets and report accuracy, precision, recall, F1 and a confusion matrix.</p>
+                        </div>
+                        <span class="mini__links">
+                            <a class="text-link" href="https://github.com/muridabuhamed/python-1-University-project" target="_blank" rel="noopener noreferrer">Exercise 1 <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                            <a class="text-link" href="https://github.com/muridabuhamed/python-2" target="_blank" rel="noopener noreferrer">Exercise 2 <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- shell:footer:start -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__row">
+                <a href="index.html" class="nav__logo" aria-label="Murid AbuHamed, home">murid<span>.</span></a>
+                <nav class="footer__nav" aria-label="Footer">
+                    <a href="index.html">Home</a>
+                    <a href="projects.html">Projects</a>
+                    <a href="about.html">About</a>
+                    <a href="experience.html">Experience</a>
+                    <a href="blog.html">Journal</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="https://github.com/muridabuhamed" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://www.linkedin.com/in/murid-abuhamed-48bbb2239/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </nav>
+            </div>
+            <p class="footer__copy">&copy; Murid AbuHamed. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button class="icon-button scrollup" type="button" id="scroll-up" aria-label="Back to top">
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+    </button>
+    <!-- shell:footer:end -->
+
+    <!-- shell:scripts:start -->
+    <script src="assets/js/vendor/gsap.min.js"></script>
+    <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+    <script src="assets/js/vendor/ScrollToPlugin.min.js"></script>
+    <script src="assets/js/vendor/lenis.min.js"></script>
+    <script src="assets/js/motion.js"></script>
+    <script src="assets/js/main.js?v=2"></script>
+    <!-- shell:scripts:end -->
+</body>
+</html>

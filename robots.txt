@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://muridabuhamed.github.io/muridabuhamed/sitemap.xml

@@ -1,0 +1,724 @@
+/* ==========================================================================
+   Engineering journal — editorial layer on top of styles.css tokens
+   ========================================================================== */
+
+.journal-page {
+  padding-block: clamp(3rem, 7vw, 6rem) var(--section);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.journal-empty .text-link {
+  justify-self: start;
+  margin-top: var(--space-2);
+}
+
+/* Page head */
+.journal-head {
+  position: relative;
+  overflow-x: clip;
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.journal-head .neural-field {
+  inset: -4rem 0 0 30%;
+}
+
+.journal-head > :not(.neural-field) {
+  position: relative;
+  z-index: 1;
+}
+
+.journal-head h1 {
+  max-width: 14ch;
+  font-size: var(--step-4);
+  font-weight: 650;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.journal-head p:not(.eyebrow) {
+  max-width: 54ch;
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Filters */
+.journal-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.filter {
+  padding: 0.4rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--muted);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.filter:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.filter[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.journal-count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* Entry list: cards, up to three per row */
+.entry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space-3);
+}
+
+.entry-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  transition: border-color var(--dur-fast), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+.entry-card:hover {
+  border-color: var(--accent-text);
+  transform: translateY(-3px);
+  box-shadow: 0 1.25rem 2.5rem -1.5rem rgb(0 0 0 / 0.45);
+}
+
+.entry-card__media {
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.entry-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+
+.entry-card:hover .entry-card__media img {
+  transform: scale(1.03);
+}
+
+.entry-card__body {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 1.25rem;
+}
+
+.entry-card__meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.entry-card__title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  transition: color var(--dur-fast);
+}
+
+.entry-card:hover .entry-card__title {
+  color: var(--accent-text);
+}
+
+.entry-card__summary {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.entry-card .tags {
+  margin-top: 0.25rem;
+}
+
+/* Single entry */
+.entry {
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.entry__back {
+  margin-bottom: var(--space-4);
+}
+
+.entry__head {
+  display: grid;
+  gap: var(--space-2);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.entry__meta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.entry__title {
+  font-size: var(--step-3);
+  font-weight: 650;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.entry__title:focus {
+  outline: none;
+}
+
+.entry__summary {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.entry__notice {
+  margin-top: var(--space-3);
+  padding: 0.75rem 1rem;
+  border: 1px dashed var(--accent-text);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent-text);
+}
+
+.entry__foot {
+  margin-top: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+/* Long-form text */
+.prose {
+  margin-top: var(--space-4);
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.prose > * + * {
+  margin-top: 1.25em;
+}
+
+.prose h2 {
+  margin-top: 2.2em;
+  font-size: var(--step-2);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.prose h3 {
+  margin-top: 1.8em;
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+
+.prose ul {
+  list-style: none;
+}
+
+.prose ul li {
+  position: relative;
+}
+
+.prose ul li::before {
+  content: "";
+  position: absolute;
+  left: -1.1em;
+  top: 0.8em;
+  width: 0.45em;
+  height: 1px;
+  background: var(--accent-text);
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li + li {
+  margin-top: 0.4em;
+}
+
+.prose a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.prose code {
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  font-variant-ligatures: none;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.prose__code {
+  position: relative;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  font-variant-ligatures: none;
+}
+
+.prose__code[data-lang]::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0.4rem;
+  right: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.prose__code code {
+  padding: 0;
+  background: none;
+  border: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+
+.prose blockquote {
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--accent);
+  font-size: var(--step-1);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 720px) {
+  .prose {
+    font-size: 1.0625rem;
+  }
+}
+
+/* ==========================================================================
+   Standalone journal articles (e.g. journal-rea-flow-clone.html). They reuse
+   the case-study layout from styles.css; these rules add the pieces a long
+   technical article needs: contents, callouts, tables, diagrams, highlighting.
+   ========================================================================== */
+.article__num {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--muted);
+}
+
+/* Keep wide children (diagrams, tables) from stretching the text column: they scroll instead */
+.article--journal .article__content {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.article--journal .article__content > ol,
+.article--journal .article__content > .callout,
+.article--journal .article__content > .table-wrap {
+  max-width: 72ch;
+}
+
+/* Table of contents */
+.toc {
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.toc__title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.toc__list {
+  counter-reset: toc;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.toc__list li {
+  counter-increment: toc;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.toc__list li::before {
+  content: counter(toc, decimal-leading-zero);
+  padding-top: 0.15rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-text);
+}
+
+.toc__list a {
+  color: var(--text-2);
+  transition: color var(--dur-fast);
+}
+
+.toc__list a:hover {
+  color: var(--accent-text);
+}
+
+/* Numbered steps inside an article */
+.steps {
+  counter-reset: step;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 2.2rem;
+}
+
+.steps li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent-text);
+}
+
+/* Callouts: finding (accent), limitation (blue), neutral note */
+.callout {
+  display: grid;
+  gap: 0.35rem;
+  margin-block: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--muted);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.callout--finding {
+  border-left-color: var(--accent-text);
+}
+
+.callout--limit {
+  border-left-color: var(--blue);
+}
+
+.callout__title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.callout--finding .callout__title {
+  color: var(--accent-text);
+}
+
+.callout--limit .callout__title {
+  color: var(--blue);
+}
+
+/* Inline code inside case-study text */
+.article__content :not(pre) > code {
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  font-variant-ligatures: none;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow-wrap: anywhere;
+}
+
+/* Comparison table: scrolls sideways on narrow screens instead of squashing */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+}
+
+.data-table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.data-table thead th {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+}
+
+.data-table tbody th {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Diagrams: inline SVG coloured from the theme variables */
+.diagram {
+  margin-block: var(--space-2);
+}
+
+.diagram__scroll {
+  overflow-x: auto;
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.diagram__svg {
+  display: block;
+  width: 100%;
+  min-width: 40rem;
+  height: auto;
+}
+
+.diagram figcaption {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.dg-box rect {
+  fill: var(--surface);
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.dg-box--accent rect,
+.dg-box--confirmed rect {
+  stroke: var(--accent-text);
+}
+
+.dg-box--inferred rect {
+  stroke: var(--blue);
+}
+
+.dg-box--unknown rect,
+.dg-box--note rect {
+  stroke: var(--muted);
+  stroke-dasharray: 5 4;
+}
+
+.dg-box--note rect {
+  fill: transparent;
+}
+
+.dg-title {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  fill: var(--text);
+}
+
+.dg-box--confirmed .dg-title {
+  fill: var(--accent-text);
+}
+
+.dg-box--inferred .dg-title {
+  fill: var(--blue);
+}
+
+.dg-box--unknown .dg-title {
+  fill: var(--muted);
+}
+
+.dg-text {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  fill: var(--text-2);
+}
+
+.dg-text--strong {
+  font-weight: 600;
+  fill: var(--text);
+}
+
+.dg-text--small {
+  font-size: 11px;
+  fill: var(--muted);
+}
+
+.dg-line {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+}
+
+.dg-line--dashed {
+  stroke-dasharray: 5 4;
+}
+
+.dg-head {
+  fill: var(--line-strong);
+}
+
+/* Syntax highlighting, applied by hand in the static article HTML */
+.tk-k { color: var(--blue); }
+.tk-f { color: var(--accent-text); }
+.tk-s { color: #e5b567; }
+.tk-n { color: #d39bf0; }
+.tk-c { color: var(--muted); font-style: italic; }
+
+[data-theme="light"] .tk-s { color: #8a5a00; }
+[data-theme="light"] .tk-n { color: #7a2da6; }
+
+@media (max-width: 960px) {
+  .toc__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .toc {
+    padding: var(--space-2);
+  }
+
+  .toc__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .callout {
+    padding: var(--space-2);
+  }
+}
+
+.article__content kbd {
+  padding: 0.05em 0.4em;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+/* Two app screenshots, stacked full width so the interface stays readable */
+.compare {
+  margin-block: var(--space-2);
+}
+
+.compare__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.compare__label {
+  margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.compare__item img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+}
+
+.compare figcaption {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* Cover at the top of a standalone article */
+.journal-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+}
+
