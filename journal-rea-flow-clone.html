@@ -8,7 +8,7 @@
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/css/styles.css?v=2">
+    <link rel="stylesheet" href="assets/css/styles.css?v=3">
     <!-- Dark by default; apply a saved light choice before first paint to avoid a flash -->
     <script>
         (function () {
@@ -23,7 +23,7 @@
         })();
     </script>
     <!-- shell:head:end -->
-    <link rel="stylesheet" href="assets/css/blog.css?v=9">
+    <link rel="stylesheet" href="assets/css/blog.css?v=11">
     <title>From Reverse Engineering to a Local Voice Dictation App — Murid AbuHamed</title>
     <meta name="description" content="How I used REA to analyze Wispr Flow's Electron package, what the evidence did and did not show, and how I built flow-clone, a Windows dictation prototype that moved from a cloud API to local whisper.cpp transcription.">
     <meta property="og:title" content="From Reverse Engineering to a Local Voice Dictation App">
@@ -86,9 +86,9 @@
                 <p class="page-head__lead">Exploring REA, investigating Wispr Flow, and building a desktop voice dictation prototype with Electron and whisper.cpp.</p>
                 <dl class="meta">
                     <div><dt>Published</dt><dd><time datetime="2026-10-17">17 October 2026</time></dd></div>
-                    <div><dt>Reading time</dt><dd>15 min read</dd></div>
+                    <div><dt>Reading time</dt><dd>10 min read</dd></div>
                     <div><dt>Analysis tool</dt><dd><a class="text-link" href="https://github.com/morluto/rea" target="_blank" rel="noopener noreferrer">REA <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></dd></div>
-                    <div><dt>Built with</dt><dd>Electron, whisper.cpp</dd></div>
+                    <div><dt>Source code</dt><dd><a class="text-link" href="https://github.com/muridabuhamed/local-voice-dictation" target="_blank" rel="noopener noreferrer">local-voice-dictation <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></dd></div>
                 </dl>
             </div>
         </header>
@@ -117,39 +117,28 @@
                 <section class="article__section" aria-labelledby="introduction">
                     <h2 class="article__label" id="introduction"><span class="article__num">01</span>Introduction</h2>
                     <div class="article__content">
-                        <p>Wispr Flow is a voice dictation app. You press a shortcut, speak, and the text appears in whatever window you were typing in. I wanted to know how it does that, and whether I could build a small version of it myself.</p>
-                        <p>I didn't have its source code. What I did have was the app installed on my own Windows machine. Wispr Flow is an Electron app, and its installation contains an <code>app.asar</code> archive with the app's bundled JavaScript. That made it a good first target for REA, an open-source toolkit that lets AI agents reverse engineer software with real analysis tools instead of guesswork.</p>
-                        <p>This post covers both halves of the project. First, what the investigation found, and just as important, what it didn't. Then how I built <code>flow-clone</code>, a dictation app that started out sending audio to the OpenAI API and ended up doing all of its speech recognition locally with whisper.cpp.</p>
-                        <p>One thing to say up front: the investigation came first and shaped how I thought about the problem, but flow-clone is not a reconstruction of Wispr Flow. I won't claim that every design choice in it came out of a specific finding.</p>
+                        <p>Wispr Flow is a voice dictation app: you press a shortcut, speak, and the text appears in whatever window you were typing in. I wanted to know how it does that, and whether I could build a small version of it myself.</p>
+                        <p>I had no source code, only the app installed on my own Windows machine. It's an Electron app whose installation contains an <code>app.asar</code> archive of bundled JavaScript, which made it a good target for REA. This post covers what that investigation found and didn't, and how I then built <code>flow-clone</code>, which went from the OpenAI API to fully local speech recognition with whisper.cpp. The investigation shaped my thinking, but I won't claim every design choice came from a specific finding.</p>
                     </div>
                 </section>
 
                 <section class="article__section" aria-labelledby="what-is-rea">
                     <h2 class="article__label" id="what-is-rea"><span class="article__num">02</span>What is REA?</h2>
                     <div class="article__content">
-                        <p>REA stands for <strong>Reverse Engineer Anything</strong>. The idea behind it is simple: rather than asking an AI agent how a program probably works, you give the agent proper analysis tools and a structured way to use them, so its conclusions rest on evidence it actually collected.</p>
-                        <p>It covers a wide range of targets: JavaScript and Electron apps, native binaries, websites, .NET assemblies, Android packages, firmware and network captures. What you can do with each one depends on the target and on which analysis tools you have installed.</p>
-                        <p>You can drive it through an agent integration or from the command line. I used the CLI. The project lives at <a href="https://github.com/morluto/rea" target="_blank" rel="noopener noreferrer">morluto/rea on GitHub</a>, and the <a href="https://github.com/morluto/rea/blob/main/docs/installation.md" target="_blank" rel="noopener noreferrer">installation guide</a> is in its docs.</p>
+                        <p>REA, short for <strong>Reverse Engineer Anything</strong>, is an open-source toolkit that gives AI agents real analysis tools, so their conclusions rest on evidence they collected rather than on guesses. I used its command-line interface. The project is <a href="https://github.com/morluto/rea" target="_blank" rel="noopener noreferrer">morluto/rea on GitHub</a>, with an <a href="https://github.com/morluto/rea/blob/main/docs/installation.md" target="_blank" rel="noopener noreferrer">installation guide</a> in its docs.</p>
                     </div>
                 </section>
 
                 <section class="article__section" aria-labelledby="how-rea-works">
                     <h2 class="article__label" id="how-rea-works"><span class="article__num">03</span>How REA works</h2>
                     <div class="article__content">
-                        <p>In practice, an investigation with REA goes like this:</p>
-                        <ol class="steps">
-                            <li><strong>Pick a target and a question.</strong> "How does this app work?" is too broad. "How does it insert text into other apps?" gives you somewhere to start.</li>
-                            <li><strong>Run the analysis</strong> that fits the target. For an Electron app, that's REA's JavaScript application workflow.</li>
-                            <li><strong>Read the evidence</strong> and narrow it down with REA's analysis views.</li>
-                            <li><strong>Sort what you found</strong> into what you can confirm, what you're inferring, and what you still don't know.</li>
-                            <li><strong>Turn the unknowns into new, smaller questions</strong>, and go around again.</li>
-                        </ol>
+                        <p>I used it in a loop: pick a narrow question, run the analysis, sort each finding into what I observed, what I was inferring and what I still didn't know, then turn the unknowns into smaller questions.</p>
 
                         <figure class="diagram">
                             <div class="diagram__scroll">
                                 <svg class="diagram__svg" viewBox="0 0 960 350" role="img" aria-labelledby="dg1-title dg1-desc">
                                     <title id="dg1-title">How REA supports an investigation of a software target</title>
-                                    <desc id="dg1-desc">A question leads to a target, the Wispr Flow app.asar package, which REA analyzes with analyze-javascript-application. The evidence JSON and an inspect-analysis-view summary are interpreted, and each claim is sorted into confirmed, inferred or unknown. Gaps recorded in this run were the main bundle exceeding worker memory, a failed search command and an API host that was not recovered. Unknowns become new, narrower questions.</desc>
+                                    <desc id="dg1-desc">A question leads to a target, the Wispr Flow app.asar package, which REA analyzes with analyze-javascript-application. The evidence JSON and an inspect-analysis-view summary are interpreted, and each claim is sorted into observed, inferred or unknown. Gaps recorded in this run were the main bundle exceeding worker memory, a failed search command and an API host that was not recovered. Unknowns become new, narrower questions.</desc>
                                     <defs>
                                         <marker id="dg1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-head" d="M0 0 L10 5 L0 10 z"/></marker>
                                     </defs>
@@ -163,7 +152,7 @@
                                     <path class="dg-line" d="M562 85 H588" marker-end="url(#dg1-arrow)"/>
                                     <path class="dg-line" d="M752 85 H778" marker-end="url(#dg1-arrow)"/>
                                     <path class="dg-line" d="M860 142 V170 M525 170 H865 M525 170 V194 M695 170 V194 M865 170 V194" />
-                                    <g class="dg-box dg-box--confirmed"><rect x="450" y="196" width="150" height="56" rx="6"/><text x="525" y="230" class="dg-title" text-anchor="middle">Confirmed</text></g>
+                                    <g class="dg-box dg-box--confirmed"><rect x="450" y="196" width="150" height="56" rx="6"/><text x="525" y="230" class="dg-title" text-anchor="middle">Observed</text></g>
                                     <g class="dg-box dg-box--inferred"><rect x="620" y="196" width="150" height="56" rx="6"/><text x="695" y="230" class="dg-title" text-anchor="middle">Inferred</text></g>
                                     <g class="dg-box dg-box--unknown"><rect x="790" y="196" width="150" height="56" rx="6"/><text x="865" y="230" class="dg-title" text-anchor="middle">Unknown</text></g>
                                     <g class="dg-box dg-box--note"><rect x="196" y="190" width="216" height="86" rx="6"/><text x="210" y="214" class="dg-text dg-text--strong">Gaps recorded in this run</text><text x="210" y="236" class="dg-text">main bundle exceeded memory</text><text x="210" y="254" class="dg-text">search command failed</text><text x="210" y="270" class="dg-text">API host not recovered</text></g>
@@ -172,78 +161,62 @@
                                     <text x="480" y="332" class="dg-text" text-anchor="middle">unknowns become new, narrower questions</text>
                                 </svg>
                             </div>
-                            <figcaption>How REA fits into an investigation, using this project's run as the example. The gaps on the left were recorded during the analysis, not added afterwards.</figcaption>
+                            <figcaption>How I used REA, with the gaps this run actually recorded.</figcaption>
                         </figure>
-
-                        <p>The step people tend to skip is the fourth one. Finding a string like <code>/api/something</code> in a bundle tells you the string exists. It doesn't tell you which server it goes to, when it's sent, or whether that code ever runs. Most of the real work happens between "the tool found X" and "X means Y".</p>
                     </div>
                 </section>
 
                 <section class="article__section" aria-labelledby="investigating-wispr-flow">
                     <h2 class="article__label" id="investigating-wispr-flow"><span class="article__num">04</span>Investigating Wispr Flow</h2>
                     <div class="article__content">
-                        <h3>The questions</h3>
-                        <p>I pointed REA at the <code>app.asar</code> package of the Wispr Flow install on my own computer, with four questions in mind: how the app captures speech, how it gets a transcription, how its components talk to each other, and how it puts the finished text into another application.</p>
-
-                        <h3>Running it</h3>
-                        <p>Here's the analysis command, pinned to the version I used, with my local path swapped for a placeholder. I analysed Wispr Flow 1.6.1167 with rea-agents 6.5.0 on Node.js 22.</p>
+                        <h3>Running the analysis</h3>
+                        <p>I pointed REA at the <code>app.asar</code> of Wispr Flow 1.6.1167 with four questions: how it captures speech, gets a transcription, connects its components and inserts text into other apps. I used rea-agents 6.5.0 on Node.js 22 (the path is a placeholder):</p>
                         <figure class="code"><figcaption>PowerShell</figcaption><pre tabindex="0"><code><span class="tk-f">npx</span> rea-agents@6.5.0 analyze-javascript-application <span class="tk-c">`</span>
   <span class="tk-s">"&lt;path-to-WisprFlow-app.asar&gt;"</span> <span class="tk-c">`</span>
   <span class="tk-k">--json</span></code></pre></figure>
-                        <p>I actually typed <code>--format json</code>, which that version accepted too; <code>--json</code> is the form its README documents.</p>
-                        <p>The first run stopped on an integrity mismatch in an unpacked native module, so I ran it again with <code>--integrity-policy record-and-continue</code>. A mismatch only means the bytes on disk didn't match what the archive declared; it doesn't prove anything was corrupted or tampered with. The second run took about ten minutes. Then I used <code>inspect-analysis-view</code> to get a readable summary of the evidence. I also tried REA's <code>search</code> command, but it failed in that session, so nothing in this post comes from it.</p>
+                        <p>The first run stopped on an integrity mismatch in an unpacked native module (which alone doesn't prove corruption or tampering), so I reran it with <code>--integrity-policy record-and-continue</code>. That run took about ten minutes, and <code>inspect-analysis-view</code> summarised the evidence. REA's <code>search</code> command failed in that session, so nothing here comes from it.</p>
 
-                        <h3>What came back</h3>
-                        <p>The summary covered 212 parsed JavaScript files, 3,511 modules and 207 IPC operations, 10 of them with literal channel names. The parts that mattered for my questions, all of them things found in the package rather than things I saw run:</p>
+                        <h3>What REA found</h3>
+                        <p>The summary covered 212 parsed JavaScript files, 3,511 modules and 207 IPC operations. The parts relevant to my questions, all found in the package rather than seen running:</p>
                         <ul class="case__list">
                             <li>Opus audio encoder workers.</li>
                             <li>Calls that write to Electron's <code>clipboard</code>.</li>
                             <li>A large IPC and <code>contextBridge</code> surface between the app's processes.</li>
                             <li>Package scripts that reference a Swift build of a native helper application.</li>
                         </ul>
+                        <p>It also reported two API paths, <code>/audio/transcriptions</code> and <code>/organization/usage/audio_transcriptions</code>, which looked like the answer to how the app transcribes. On a closer look, the strings most likely come from a third-party SDK bundled into the app, and nothing else backed them up.</p>
 
-                        <h3>The finding that probably wasn't</h3>
-                        <p>REA also turned up two API paths: <code>/audio/transcriptions</code> and <code>/organization/usage/audio_transcriptions</code>. At first this looked like the answer to question two, how the app gets its transcriptions. It probably isn't. Looked at more closely, the strings most likely come from a third-party SDK bundled into the app, and nothing else in the evidence backed them up. A search hit proves that some text exists in a file. It doesn't tell you why it's there.</p>
-
-                        <h3>Where it stopped</h3>
-                        <p>Coverage was partial. REA's workers ran out of memory on the main application bundle and a few other large files, and REA marked those files as unexamined instead of guessing about them. So the analysis never revealed which server the app talks to, or exactly how it inserts text on Windows.</p>
+                        <h3>Following up by hand</h3>
+                        <p>REA's workers ran out of memory on the main bundle and a few other large files, which REA marked as unexamined instead of guessing. Its run didn't show which server the app talks to or how it inserts text on Windows, so I continued by hand: I unpacked the archive with <code>asar</code>, searched the minified bundles with ripgrep and read the relevant files. That turned up WebSocket endpoint strings on Wispr Flow's domain (<code>wss://api.wisprflow.ai/</code> and a regional one), an IPC channel asking the native helper to simulate key presses, and a debugging utility whose comments describe reading the text around the cursor through accessibility APIs. Not every hit held up: an <code>insertText</code> match belonged to a bundled HTML parser. I also compared the findings with Wispr Flow's privacy policy and briefly ran the app to see which windows it opens.</p>
                         <aside class="callout callout--finding" aria-label="Summary of the evidence">
                             <p class="callout__title">Where I ended up</p>
-                            <p><strong>Observed in the package:</strong> Opus encoder code, clipboard write calls, a large IPC surface, and build scripts that reference a native helper.</p>
-                            <p><strong>Inferred:</strong> these look like parts of the audio and text-insertion paths, and the clipboard calls fit a copy-then-paste approach. Static analysis can't show that each one actually runs when you dictate on Windows.</p>
-                            <p><strong>Unknown:</strong> the backend host, and the complete Windows text-insertion path.</p>
+                            <p><strong>Observed in the code:</strong> Opus encoder workers, clipboard write calls, a simulated-key-press channel to a native helper, accessibility-based reading of on-screen text, and WebSocket endpoint strings on Wispr Flow's domain.</p>
+                            <p><strong>Confirmed:</strong> when it starts, the app shows a single small window titled "Status", and the privacy policy describes collecting the kind of on-screen context the code points to.</p>
+                            <p><strong>Inferred:</strong> audio is probably encoded with Opus and streamed to Wispr Flow's servers over WebSocket, and text is probably inserted by copying it to the clipboard and having the helper press paste. Static analysis can't show that each piece runs during a real dictation.</p>
+                            <p><strong>Unknown:</strong> what actually goes over the wire (I captured no network traffic), which speech or AI models run on the server, and how the native helper works inside.</p>
                         </aside>
-                        <p>I'm keeping this at a high level on purpose. There's no code, no internal files and no raw analysis output from Wispr Flow in this post.</p>
-                    </div>
+                                            </div>
                 </section>
 
                 <section class="article__section" aria-labelledby="building-flow-clone">
                     <h2 class="article__label" id="building-flow-clone"><span class="article__num">05</span>Building flow-clone</h2>
                     <div class="article__content">
-                        <p>flow-clone does one thing. You press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd> and start talking, press it again when you're done, and the text is pasted into the window you were working in. It went through three versions.</p>
+                        <p>flow-clone does one thing: press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd>, talk, press it again, and the text is pasted into the window you were working in. Its interface is a deliberate design study inspired by Wispr Flow. Underneath, it's an independent prototype with its own code; it isn't affiliated with Wispr Flow and doesn't claim to reproduce its internal implementation. Only Dictation and Settings work; the other sidebar items are placeholders.</p>
 
-                        <figure class="compare">
-                            <div class="compare__grid">
-                                <div class="compare__item">
-                                    <p class="compare__label">Wispr Flow · the original</p>
-                                    <img src="assets/img/opt/wispr-flow-main.webp" width="1400" height="803" loading="lazy" decoding="async" alt="Wispr Flow's main window: a sidebar with Dictation, Notetaker, Insights and other sections, a greeting with the dictation shortcut, recent dictations and a card with total words, words per minute and day streak">
-                                </div>
-                                <div class="compare__item">
-                                    <p class="compare__label">flow-clone · my version</p>
-                                    <img src="assets/img/opt/flow-clone-dashboard.webp" width="1400" height="902" loading="lazy" decoding="async" alt="flow-clone's dashboard: a similar sidebar, a greeting with Ctrl plus Alt plus Space, a dictation history and a card showing whisper.cpp with the local ggml-base.en model">
-                                </div>
-                            </div>
-                            <figcaption>Both apps running on my computer. flow-clone's dashboard is modeled on Wispr Flow's, but only Dictation and Settings work; the other sidebar items are placeholders.</figcaption>
+                        <figure class="diagram journal-shot">
+                            <img src="assets/img/opt/journal/flow-clone-dashboard.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="flow-clone's dashboard: a sidebar, a greeting with Ctrl plus Alt plus Space, the dictation history and a card showing the local whisper.cpp engine and ggml-base.en model">
+                            <figcaption>flow-clone's dashboard, running on my computer.</figcaption>
                         </figure>
 
-                        <p>As the screenshots show, flow-clone's dashboard is modeled on Wispr Flow's: the greeting with the shortcut, the sidebar, the dictation history and the card with total words, words per minute and a daily streak. The similarity stops at the surface. Only Dictation and Settings actually work; clicking any other sidebar item just tells you the feature isn't available.</p>
+                        <!-- SUGGESTED ASSET: replace this placeholder with a real recording; nothing has been recorded yet. -->
+                        <aside class="asset-placeholder" aria-label="Suggested asset">
+                            <p class="asset-placeholder__title">Suggested asset · not recorded yet</p>
+                            <p>A short GIF of a real dictation: press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd>, speak, and watch the text appear in another app.</p>
+                        </aside>
 
-                        <h3>Version 1: OpenAI for transcription</h3>
-                        <p>The first version was the simplest thing that could work. <code>main.js</code> took the recorded audio, wrote it to a temporary WebM file and sent it to OpenAI's transcription API through the OpenAI SDK. The text came back, went onto the clipboard, and PowerShell's <code>SendKeys</code> pressed <kbd>Ctrl</kbd>+<kbd>V</kbd>. Record, transcribe, paste.</p>
-
-                        <h3>Version 2: whisper.cpp on my own machine</h3>
-                        <p>Next I replaced the API with <a href="https://github.com/ggml-org/whisper.cpp" target="_blank" rel="noopener noreferrer">whisper.cpp</a>. The app now runs <code>whisper-cli.exe</code> with the English <code>ggml-base.en</code> model. The app's code makes no network requests, and its windows block them outright with a Content Security Policy (<code>connect-src 'none'</code>), so the audio stays on the computer.</p>
-                        <p>That change rippled through the recording code. Instead of handing over one finished recording, an <code>AudioWorklet</code> collects the browser's small audio blocks into 4,096-sample chunks and sends them on while you speak. The main process converts each chunk to 16-bit PCM. Transcription itself isn't live: when you stop, the app writes a WAV file and hands it to whisper:</p>
+                        <h3>From the OpenAI API to whisper.cpp</h3>
+                        <p>The first version was the simplest thing that could work. <code>main.js</code> wrote the recorded audio to a temporary WebM file, sent it to OpenAI's transcription API through the OpenAI SDK, put the result on the clipboard and had PowerShell's <code>SendKeys</code> press <kbd>Ctrl</kbd>+<kbd>V</kbd>.</p>
+                        <p>Then I replaced the API with <a href="https://github.com/ggml-org/whisper.cpp" target="_blank" rel="noopener noreferrer">whisper.cpp</a>, running <code>whisper-cli.exe</code> with the English <code>ggml-base.en</code> model. The app's code makes no network requests, and its windows block them with a Content Security Policy (<code>connect-src 'none'</code>), so the audio stays on the computer. Recording changed too: an <code>AudioWorklet</code> collects the browser's small audio blocks into 4,096-sample chunks, and the main process converts them to 16-bit PCM. Transcription isn't live; when you stop, the app writes a WAV file for whisper:</p>
                         <figure class="code"><figcaption>main.js</figcaption><pre tabindex="0"><code><span class="tk-k">async function</span> <span class="tk-f">transcribeWav</span>(wavPath) {
   <span class="tk-k">const</span> { stdout } = <span class="tk-k">await</span> <span class="tk-f">execFileAsync</span>(
     WHISPER_EXE,
@@ -252,35 +225,47 @@
   )
   <span class="tk-k">return</span> stdout.<span class="tk-f">trim</span>()
 }</code></pre></figure>
-                        <p>Running <code>npm run setup</code> downloads the whisper.cpp build and the model. The model file alone is about 148 MB, and its checksum matches the official one. If either one is missing, the app tells you so and doesn't start recording, so you don't talk for a minute only to get an error at the end. Later I also removed an OpenAI formatting pass I had been running over the transcripts, so what gets pasted now is whisper.cpp's output with only the surrounding spaces trimmed.</p>
+                        <p><code>npm run setup</code> downloads the whisper.cpp build and the model (about 148 MB, with a checksum that matches the official one), and the app won't record if either is missing. I also dropped an OpenAI formatting pass, so what gets pasted is whisper.cpp's output with surrounding spaces trimmed.</p>
 
-                        <h3>Version 3: pasting into the right place</h3>
-                        <p>A dictation app that pastes into the wrong window is worse than no dictation app at all. Most of the later work went into making sure that doesn't happen:</p>
+                        <h3>Pasting into the right place</h3>
+                        <p>Pasting into the wrong window is worse than not pasting, so most of the later work went here:</p>
                         <ul class="case__list">
-                            <li><strong>It checks the target.</strong> When you press the hotkey, the app remembers which window had focus. If no window did, or it was one of flow-clone's own, you get a message and nothing is recorded.</li>
-                            <li><strong>It verifies before pasting.</strong> Before it pastes, it brings that window back to the front and checks that this actually worked.</li>
-                            <li><strong>It keeps the transcript when pasting fails.</strong> If the original window is gone, the transcript opens in a small review window where you can edit it, insert it, copy it or try again. There's also a review mode that shows every transcript before it's pasted.</li>
-                            <li><strong>It shows you what's happening.</strong> A small status pill sits on top of other windows and shows recording, processing, success or error, without taking focus away from the app you're dictating into.</li>
-                            <li><strong>It keeps a history.</strong> The last 200 dictations are saved locally, with total words, words per minute and a daily streak calculated from them.</li>
+                            <li><strong>It checks the target.</strong> It notes the focused window when you press the hotkey, and records nothing if there isn't one or it's flow-clone's own.</li>
+                            <li><strong>It verifies before pasting.</strong> It brings that window back to the front and checks that this worked.</li>
+                            <li><strong>It keeps the transcript when pasting fails.</strong> A review window lets you edit, insert, copy or retry; an optional review mode shows every transcript first.</li>
+                            <li><strong>It shows its state</strong> in a small always-on-top status pill that doesn't take focus.</li>
+                            <li><strong>It keeps a local history</strong> of the last 200 dictations, with total words, words per minute and a daily streak.</li>
                         </ul>
+
+                        <figure class="compare compare--pair">
+                            <div class="compare__grid">
+                                <div class="compare__item">
+                                    <p class="compare__label">Settings</p>
+                                    <img src="assets/img/opt/journal/flow-clone-settings.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="flow-clone's Settings screen with the dictation hotkey field set to Control+Alt+Space, a Review before inserting switch and a Save button, next to the word, words-per-minute and streak card and the local whisper.cpp model details">
+                                </div>
+                                <div class="compare__item">
+                                    <p class="compare__label">Review window</p>
+                                    <img src="assets/img/opt/journal/flow-clone-review.webp" width="1200" height="1000" loading="lazy" decoding="async" alt="flow-clone's Review Transcript window saying the original window is no longer available, with the transcript in an editable box and Insert, Copy, Retry and Cancel buttons with their keyboard shortcuts">
+                                </div>
+                            </div>
+                            <figcaption>Settings, with the hotkey and the review switch, and the review window, opened here from a history entry, so it reports that the original window is gone.</figcaption>
+                        </figure>
 
                         <h3>The bugs that taught me the most</h3>
-                        <p>Most of what I learned about Windows came from things going wrong:</p>
                         <ul class="case__list">
-                            <li>A PowerShell console window that existed for only a split second could grab focus and swallow the paste. Every helper process now runs hidden.</li>
-                            <li>Windows often ignored a background process's request to bring a window to the front. In my tests, sending an empty <code>SendKeys</code> first made it work much more often. I don't know exactly why, and it's no guarantee, which is why the app still checks the result.</li>
-                            <li>The status pill is hidden between dictations, not destroyed, so it can appear instantly. But a hidden window still counts as open, so closing the dashboard left the app running invisibly in the background. Closing the dashboard now cleans up the other windows too.</li>
-                            <li>Typing an invalid shortcut in the settings made Electron throw an error. The old shortcut had already been removed, so the global hotkey silently stopped working until a restart. A bad shortcut now falls back to the previous one.</li>
-                            <li>One PowerShell call had no timeout, so a hung process could leave a dictation stuck on "processing" forever. Every helper call has one now.</li>
+                            <li>A PowerShell console window that existed for a split second could steal focus and swallow the paste. Helper processes now run hidden.</li>
+                            <li>Windows often ignored a background process's request to bring a window to the front. In my tests, an empty <code>SendKeys</code> first made it work much more often; I don't know exactly why, and it's no guarantee, so the app still checks the result.</li>
+                            <li>The status pill is hidden between dictations, not destroyed, but a hidden window still counts as open, so closing the dashboard left the app running invisibly. Closing it now cleans up the other windows.</li>
+                            <li>An invalid shortcut made Electron throw after the old one was already removed, silently killing the global hotkey until a restart. A bad shortcut now falls back to the previous one.</li>
+                            <li>One PowerShell call had no timeout, so a hung process could leave a dictation stuck on "processing". Every helper call has one now.</li>
                         </ul>
-                        <p>To be clear about what this is: flow-clone borrows the look of Wispr Flow's dashboard, but underneath it's a much smaller, separate app with its own code. It's English-only, Windows-only, and it transcribes on your own machine.</p>
                     </div>
                 </section>
 
                 <section class="article__section" aria-labelledby="architecture">
                     <h2 class="article__label" id="architecture"><span class="article__num">06</span>Architecture and trade-offs</h2>
                     <div class="article__content">
-                        <p>flow-clone is a single Electron app with three windows: the dashboard, the review window and the status pill. Anything that touches the operating system lives in the main process. For the Windows-specific parts (finding the focused window, bringing it back and pressing paste), it starts short-lived, hidden PowerShell processes that call <code>user32.dll</code>. That avoided adding a native dependency.</p>
+                        <p>flow-clone is one Electron app with three windows: dashboard, review window and status pill. Everything that touches the operating system lives in the main process, and the Windows-specific parts run in short-lived, hidden PowerShell processes that call <code>user32.dll</code>, which avoided a native dependency.</p>
 
                         <figure class="diagram">
                             <div class="diagram__scroll">
@@ -316,7 +301,6 @@
                         </figure>
 
                         <h3>Cloud API or local model?</h3>
-                        <p>The biggest change between the first and the current version was where speech recognition happens.</p>
                         <div class="table-wrap" role="region" aria-label="Comparison of the first and the current version" tabindex="0">
                             <table class="data-table">
                                 <thead>
@@ -332,14 +316,10 @@
                                 </tbody>
                             </table>
                         </div>
-                        <p>Running the model locally means no transcription service to depend on once setup is done, and no audio sent anywhere to be recognised. It also means new work: someone has to download and ship a model, local inference has to run fast enough on the user's hardware, and the runtime has to be supported on every platform you care about.</p>
-                        <aside class="callout callout--limit" aria-label="No benchmarks yet">
-                            <p class="callout__title">No benchmarks yet</p>
-                            <p>I haven't measured flow-clone, so I won't claim the local version is faster or more accurate. A fair comparison would test transcription quality, latency, CPU and memory use, and reliability on the same machine for both versions.</p>
-                        </aside>
+                        <p>Local inference removes the transcription service once setup is done, but brings its own work: shipping a model, running fast enough on the user's hardware, and supporting each platform. I haven't benchmarked either version, so I make no claim that the local one is faster or more accurate.</p>
 
                         <h3>Pasting into another app</h3>
-                        <p>Putting text on the clipboard is easy. Getting it into the right window is the hard part, because between pressing the hotkey and pasting, that window can close, lose focus or end up behind something else. So flow-clone brings back the window it noted at the start, and checks that Windows really made it the foreground window:</p>
+                        <p>Between the hotkey and the paste, the target window can close or lose focus, so flow-clone restores the window it noted at the start and checks that Windows really brought it to the front:</p>
                         <figure class="code"><figcaption>main.js · PowerShell inside focusTarget</figcaption><pre tabindex="0"><code><span class="tk-k">if</span> (<span class="tk-k">-not</span> [FlowCloneWin32]::<span class="tk-f">IsWindow</span>(<span class="tk-n">$target</span>)) { <span class="tk-f">Write-Output</span> <span class="tk-s">"CLOSED"</span>; <span class="tk-k">exit</span> }
 [System.Windows.Forms.SendKeys]::<span class="tk-f">SendWait</span>(<span class="tk-s">""</span>)
 <span class="tk-f">Start-Sleep</span> <span class="tk-k">-Milliseconds</span> <span class="tk-n">80</span>
@@ -347,25 +327,7 @@
 <span class="tk-f">Start-Sleep</span> <span class="tk-k">-Milliseconds</span> <span class="tk-n">150</span>
 <span class="tk-n">$current</span> = [FlowCloneWin32]::<span class="tk-f">GetForegroundWindow</span>()
 <span class="tk-k">if</span> (<span class="tk-n">$current</span>.<span class="tk-f">Equals</span>(<span class="tk-n">$target</span>)) { <span class="tk-f">Write-Output</span> <span class="tk-s">"OK"</span> } <span class="tk-k">else</span> { <span class="tk-f">Write-Output</span> <span class="tk-s">"FOCUS_FAILED"</span> }</code></pre></figure>
-                        <p>If that check fails, nothing is pasted. The error sends the transcript to the review window instead:</p>
-                        <figure class="code"><figcaption>main.js · shortened</figcaption><pre tabindex="0"><code><span class="tk-k">async function</span> <span class="tk-f">pasteText</span>(text, target) {
-  <span class="tk-k">const</span> focusResult = <span class="tk-k">await</span> <span class="tk-f">focusTarget</span>(target)
-  <span class="tk-k">if</span> (!focusResult.ok) {
-    <span class="tk-k">const</span> err = <span class="tk-k">new</span> <span class="tk-f">Error</span>(<span class="tk-s">`Target window unavailable (${focusResult.reason})`</span>)
-    err.code = <span class="tk-s">'TARGET_UNAVAILABLE'</span>
-    <span class="tk-k">throw</span> err
-  }
-  <span class="tk-c">…</span>
-  clipboard.<span class="tk-f">writeText</span>(text)
-  <span class="tk-k">try</span> {
-    <span class="tk-k">await</span> <span class="tk-f">sendPasteKeystroke</span>()
-  } <span class="tk-k">finally</span> {
-    <span class="tk-c">// Give the target app time to read the clipboard before we restore it.</span>
-    <span class="tk-k">await</span> <span class="tk-f">delay</span>(<span class="tk-n">500</span>)
-    <span class="tk-c">…</span>
-  }
-}</code></pre></figure>
-                        <p>This approach has limits. It depends on Windows APIs and PowerShell, so it won't run on macOS or Linux. And because it pastes through the clipboard, it briefly replaces whatever you had copied. flow-clone saves and restores plain text only, so anything else you had copied, such as an image, is replaced.</p>
+                        <p>If the check fails, nothing is pasted and the transcript goes to the review window. The approach is Windows-only, and since flow-clone saves and restores only plain text, pasting replaces anything else on the clipboard, such as an image.</p>
                     </div>
                 </section>
 
@@ -373,42 +335,34 @@
                     <h2 class="article__label" id="what-i-learned"><span class="article__num">07</span>What I learned</h2>
                     <div class="article__content">
                         <h3>A search hit is a question, not an answer</h3>
-                        <p>The API paths were the clearest example. They looked like exactly what I was searching for, and on a closer look they told me nothing about how Wispr Flow transcribes speech. Now I read the code around a match before I believe anything about it.</p>
+                        <p>The API paths looked like exactly what I wanted and told me nothing about how Wispr Flow transcribes. I now read the code around a match before believing it.</p>
                         <h3>Write down what failed</h3>
-                        <p>The failed search, the memory limits and the files REA couldn't examine were as useful as the findings. They showed exactly where the evidence ran out, and they kept me from filling those gaps with guesses.</p>
-                        <h3>Understanding a design is not copying it</h3>
-                        <p>I never needed to reproduce Wispr Flow's internals. Knowing the broad shape of the problem (capture, transcribe, insert) was enough to build my own version and make my own decisions.</p>
+                        <p>The failed search, the memory limits and the files REA couldn't examine showed where the evidence ran out and where to dig by hand next.</p>
                         <h3>Agents are fast, so verification matters more</h3>
-                        <p>AI agents make both the investigation and the coding faster. They also make it easy to write a confident summary that mixes up what a tool observed with what someone assumed. Keeping those two apart was most of the discipline in this project.</p>
+                        <p>AI agents speed up investigation and coding, and make it just as easy to write a confident summary that mixes up what a tool observed with what someone assumed.</p>
                     </div>
                 </section>
 
                 <section class="article__section" aria-labelledby="reproducible-workflow">
                     <h2 class="article__label" id="reproducible-workflow"><span class="article__num">08</span>Try it yourself</h2>
                     <div class="article__content">
-                        <p>If you want to try something similar, this is the order I'd go in:</p>
                         <ol class="steps">
-                            <li>Pick software you're allowed to inspect.</li>
-                            <li>Follow REA's <a href="https://github.com/morluto/rea/blob/main/docs/installation.md" target="_blank" rel="noopener noreferrer">installation guide</a>, and check the Node.js version and any tools your target needs.</li>
-                            <li>Run the workflow that fits your target, and pin the REA version so your results can be reproduced. Electron apps have their own workflow; other targets may need other tools.</li>
-                            <li>Keep the output, and for every conclusion note the evidence behind it, including the steps that failed.</li>
-                            <li>Build a small prototype around one feature you can clearly define.</li>
-                            <li>Test it on its own terms, and write down how it differs from the original.</li>
+                            <li>Pick software you're allowed to inspect; owning a copy doesn't automatically permit every kind of reverse engineering.</li>
+                            <li>Install REA from its <a href="https://github.com/morluto/rea/blob/main/docs/installation.md" target="_blank" rel="noopener noreferrer">installation guide</a> and pin the version so your results can be reproduced.</li>
+                            <li>Run the workflow that fits your target, keep the output (including failed steps), and note the evidence behind every conclusion.</li>
+                            <li>Build a small prototype around one clear feature, and when you publish, share your method and findings, not someone else's code.</li>
                         </ol>
-                        <p>Respect the software you're looking at: its license, its terms of service, and the privacy of its users. Having a copy of an app doesn't automatically mean every kind of reverse engineering is allowed; that depends on the license and on the law where you live. Review REA's source and permissions before you install it, as you would with any tool. And when you write about what you did, share your method and the high-level findings, not someone else's code or large dumps of raw analysis output.</p>
                     </div>
                 </section>
 
                 <section class="article__section" aria-labelledby="conclusion">
                     <h2 class="article__label" id="conclusion"><span class="article__num">09</span>Conclusion</h2>
                     <div class="article__content">
-                        <p>I started with a question about someone else's app and ended up with an app of my own. REA gave me a real map of Wispr Flow's Electron package: what was there, what was likely, and where the evidence stopped. flow-clone grew from a three-step script around a cloud API into a local whisper.cpp app that checks where it pastes and keeps your transcript when pasting fails.</p>
-                        <p>Reverse engineering didn't hand me a clone. What it gave me was a clear picture of the problem, and that turned out to be enough to start building.</p>
+                        <p>REA gave me a first map of Wispr Flow's Electron package, and reading the files by hand filled in more of it, including where the evidence stopped. flow-clone grew from a three-step script around a cloud API into a local whisper.cpp app that checks where it pastes and keeps your transcript when pasting fails. Reverse engineering didn't hand me a clone; it gave me a clear picture of the problem.</p>
                         <dl class="tech">
-                            <div><dt>Project</dt><dd><code>flow-clone</code>, a local prototype (source not published)</dd></div>
+                            <div><dt>Source code</dt><dd><a href="https://github.com/muridabuhamed/local-voice-dictation" target="_blank" rel="noopener noreferrer">github.com/muridabuhamed/local-voice-dictation</a> (the app is called <code>flow-clone</code> in the code)</dd></div>
                             <div><dt>Analysis tool</dt><dd><a href="https://github.com/morluto/rea" target="_blank" rel="noopener noreferrer">REA, Reverse Engineer Anything</a></dd></div>
                             <div><dt>Framework</dt><dd>Electron 33, an old release that no longer receives updates</dd></div>
-                            <div><dt>Transcription</dt><dd><code>whisper.cpp</code> with the <code>ggml-base.en</code> model, on Windows</dd></div>
                         </dl>
                     </div>
                 </section>

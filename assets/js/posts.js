@@ -35,7 +35,7 @@ window.POSTS = [
     coverAlt: 'Illustration: a sound wave flows into a local AI model chip, which flows into an app window with the pasted text',
     title: 'From Reverse Engineering to a Local Voice Dictation App',
     date: '2026-10-17',
-    minutes: 15,
+    minutes: 10,
     tags: ['Reverse engineering', 'Electron', 'Local AI'],
     summary: 'Exploring REA, investigating Wispr Flow, and building a desktop voice dictation prototype with Electron and whisper.cpp.',
   },

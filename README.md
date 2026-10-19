@@ -13,7 +13,7 @@ Plain static HTML, CSS and JavaScript, hosted on GitHub Pages. There is no frame
 | Page | File | Purpose |
 |------|------|---------|
 | Home | `index.html` | Introduction, animated neural-network hero, three featured case studies, what I can build |
-| Projects | `projects.html` | All 14 projects in three levels: case studies, additional engineering projects, small experiments |
+| Projects | `projects.html` | All 15 projects in three levels: case studies, additional engineering projects, small experiments |
 | Case studies | `project-umc.html`, `project-cleverstudy.html`, `project-ollama-chat.html` | Problem, architecture, decisions, code excerpts, status and limitations, written from the source code |
 | About | `about.html` | Background, patterns used when integrating LLMs, skills with honest levels |
 | Experience | `experience.html` | Roles, education, certifications, references |

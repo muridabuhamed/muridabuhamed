@@ -722,3 +722,43 @@
   border-radius: var(--radius-lg);
 }
 
+
+/* Two screenshots side by side (wide + narrow), stacked on smaller screens */
+.compare--pair .compare__grid {
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+@media (max-width: 820px) {
+  .compare--pair .compare__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Single screenshot inside an article */
+.journal-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+}
+
+/* Placeholder for an asset that still has to be recorded */
+.asset-placeholder {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 72ch;
+  padding: var(--space-3);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.asset-placeholder__title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}

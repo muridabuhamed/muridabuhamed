@@ -51,7 +51,7 @@ HEAD = """\
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/css/styles.css?v=2">
+    <link rel="stylesheet" href="assets/css/styles.css?v=3">
     <!-- Dark by default; apply a saved light choice before first paint to avoid a flash -->
     <script>
         (function () {
