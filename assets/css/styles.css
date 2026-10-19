@@ -2844,3 +2844,21 @@ html.lenis body {
     padding: var(--space-3);
   }
 }
+
+/* Short descriptions under a role on the experience page */
+.ledger__points {
+  margin-top: 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.ledger__points li + li {
+  margin-top: 0.35rem;
+}
+
+.cert__link {
+  margin-top: 0.6rem;
+  justify-self: start;
+  font-size: 0.875rem;
+}

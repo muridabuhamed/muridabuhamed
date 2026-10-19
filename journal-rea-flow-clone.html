@@ -8,7 +8,7 @@
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/css/styles.css?v=3">
+    <link rel="stylesheet" href="assets/css/styles.css?v=4">
     <!-- Dark by default; apply a saved light choice before first paint to avoid a flash -->
     <script>
         (function () {
@@ -23,7 +23,7 @@
         })();
     </script>
     <!-- shell:head:end -->
-    <link rel="stylesheet" href="assets/css/blog.css?v=11">
+    <link rel="stylesheet" href="assets/css/blog.css?v=12">
     <title>From Reverse Engineering to a Local Voice Dictation App — Murid AbuHamed</title>
     <meta name="description" content="How I used REA to analyze Wispr Flow's Electron package, what the evidence did and did not show, and how I built flow-clone, a Windows dictation prototype that moved from a cloud API to local whisper.cpp transcription.">
     <meta property="og:title" content="From Reverse Engineering to a Local Voice Dictation App">
@@ -207,12 +207,6 @@
                             <img src="assets/img/opt/journal/flow-clone-dashboard.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="flow-clone's dashboard: a sidebar, a greeting with Ctrl plus Alt plus Space, the dictation history and a card showing the local whisper.cpp engine and ggml-base.en model">
                             <figcaption>flow-clone's dashboard, running on my computer.</figcaption>
                         </figure>
-
-                        <!-- SUGGESTED ASSET: replace this placeholder with a real recording; nothing has been recorded yet. -->
-                        <aside class="asset-placeholder" aria-label="Suggested asset">
-                            <p class="asset-placeholder__title">Suggested asset · not recorded yet</p>
-                            <p>A short GIF of a real dictation: press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Space</kbd>, speak, and watch the text appear in another app.</p>
-                        </aside>
 
                         <h3>From the OpenAI API to whisper.cpp</h3>
                         <p>The first version was the simplest thing that could work. <code>main.js</code> wrote the recorded audio to a temporary WebM file, sent it to OpenAI's transcription API through the OpenAI SDK, put the result on the clipboard and had PowerShell's <code>SendKeys</code> press <kbd>Ctrl</kbd>+<kbd>V</kbd>.</p>
