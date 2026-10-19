@@ -62,7 +62,14 @@
           const fragment = document.createDocumentFragment();
           child.textContent.split(/(\s+)/).forEach((part) => {
             if (!part) return;
-            if (/^\s+$/.test(part)) { fragment.append(document.createTextNode(' ')); return; }
+            if (/^\s+$/.test(part)) {
+              // the space lives in its own element so it stays between the words it separates
+              const gap = document.createElement('span');
+              gap.className = 'word-gap';
+              gap.textContent = ' ';
+              fragment.append(gap);
+              return;
+            }
             const span = document.createElement('span');
             span.className = 'word';
             span.textContent = part;

@@ -44,6 +44,7 @@
   /* Borders and separators */
   --line: #2a2d32;
   --line-strong: #41454c;
+  --line-input: #6b7079; /* form field borders: 3:1 against the page and field background */
   --grid-line: rgba(242, 242, 238, 0.055);
 
   /* Text: primary, secondary, muted */
@@ -111,6 +112,7 @@
   --surface-2: #eae8e0;
   --line: #dad8cd;
   --line-strong: #b9b6a9;
+  --line-input: #85827a;
   --grid-line: rgba(23, 24, 28, 0.07);
 
   --text: #17181c;
@@ -1401,7 +1403,7 @@ a.channel:hover .icon {
   width: 100%;
   padding: 0.8rem 0.9rem;
   background: var(--surface);
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line-input);
   border-radius: var(--radius);
   transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
 }
@@ -1727,6 +1729,9 @@ a.channel:hover .icon {
 }
 
 .crumbs a {
+  display: inline-block;
+  padding-block: 0.35rem; /* at least 24px tall, easier to tap */
+  margin-block: -0.35rem;
   transition: color var(--dur-fast);
 }
 

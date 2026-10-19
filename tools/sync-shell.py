@@ -38,7 +38,7 @@ SCRIPTS = """\
     <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
     <script src="assets/js/vendor/ScrollToPlugin.min.js"></script>
     <script src="assets/js/vendor/lenis.min.js"></script>
-    <script src="assets/js/motion.js"></script>
+    <script src="assets/js/motion.js?v=2"></script>
     <script src="assets/js/main.js?v=2"></script>"""
 
 GITHUB = "https://github.com/muridabuhamed"
@@ -51,7 +51,7 @@ HEAD = """\
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/css/styles.css?v=4">
+    <link rel="stylesheet" href="assets/css/styles.css?v=5">
     <!-- Dark by default; apply a saved light choice before first paint to avoid a flash -->
     <script>
         (function () {
